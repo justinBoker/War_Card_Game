@@ -1,6 +1,8 @@
+// const suits and const ranks represent the two elements of each playing card.
 const suits = ["Spades", "Clubs", "Hearts", "Diamonds"];
 const ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"];
 
+// The class Deck uses the newDeck function construct a Deck object. This class also comes with a shuffle method to randomize the 52 Card objects within.
 class Deck {
     constructor(cards = newDeck()) {
         this.cards = cards;
@@ -16,6 +18,7 @@ class Deck {
     }
 }
 
+// The class Card establishes the templete of a Card object.
 class Card {
     constructor(suit, rank) {
         this.suit = suit;
@@ -23,6 +26,7 @@ class Card {
     }
 }
 
+// The newDeck function takes the suits and ranks variables and returns 52 new instances of the Card class.
 function newDeck() {
     return suits.flatMap(suit => {
         return ranks.map(rank => {
@@ -31,6 +35,7 @@ function newDeck() {
     });
 }
 
+// The class Player establishes the player's name and provides each instance of player with an empty hand to fill.
 class Player {
     constructor(name) {
         this.name = name;
@@ -38,9 +43,14 @@ class Player {
     }
 }
 
+// Below is two instances of Player. playerOne is named after my daughter. playerTwo was a baby name my wife and I chose if we had a son.
 const playerOne = new Player("Avacyn");
 const playerTwo = new Player("Lincoln");
 
+// The startGame function creates an instance of a Deck called gameDeck and then shuffles the deck using the method provided in the class code.
+// Then a new variable called halfDeck is created and it is equeal to the halfway point of the gameDeck.
+// Next, playerOne's and playerTwo's empty hand's are populated using the slice method on the gameDeck array.
+// Finally, the function, gameRounds, that represents the next aspect of the game is called.
 function startGame() {
     const gameDeck = new Deck();
     gameDeck.shuffle();
@@ -48,9 +58,19 @@ function startGame() {
     const halfDeck = Math.ceil(gameDeck.cards.length / 2);
     playerOne.hand = gameDeck.cards.slice(0, halfDeck);
     playerTwo.hand = gameDeck.cards.slice(halfDeck, gameDeck.cards.length);
-    console.log(playerOne.hand);
+
+    gameRounds(playerOne.hand, playerTwo.hand);
 }
 
+// The function gameRounds takes in the hands of playerOne and playerTwo as arguments.
+// The score for both players are established as variables p1Score and p2Score.
+// A for loop is set up to iterate through both player's hands.
+// The first two if statements check to see if either playerOne's or playerTwo's card is a face card.
+    // If it is, then the original value of "A, K, Q, or J" is replaced by its respective value in the faceCardValue function.
+// The if/else if/ else statement checks to see whether a player won each round or if there was a draw. 
+    // If a player won a round, then their score is increased and the text is logged to the console. 
+    // If it is a draw, neither player receives points. The text in the else statement is logged to the console.
+// Lastly, when the for loop finishes, the declareWinner function is called and the scores for both players is passed as arguments.
 function gameRounds(playerOne, playerTwo) {
     let p1Score = 0;
     let p2Score = 0;
@@ -88,6 +108,7 @@ function gameRounds(playerOne, playerTwo) {
     declareWinner(p1Score, p2Score)
 }
 
+// This function takes in an argument from the previous function and replaces a face card's string value with a number value.
 function faceCardValue(cardRank) {
     switch(cardRank) {
         case "A":
@@ -101,6 +122,8 @@ function faceCardValue(cardRank) {
     }
 }
 
+// This function takes in the final score at the end of the gameRounds function and runs it through an if/ else if/ else statement. 
+    // Either it will declare one player or the other the winner and by how much. Or it will state there was a draw.
 function declareWinner(p1Score, p2Score) {
     if(p1Score > p2Score) {
         console.log(`Avacyn wins by a margin of ${p1Score - p2Score} point(s)!`);
@@ -111,5 +134,5 @@ function declareWinner(p1Score, p2Score) {
     }
 }
 
+// This calls the function that starts the game.
 startGame();
-gameRounds(playerOne.hand, playerTwo.hand);
