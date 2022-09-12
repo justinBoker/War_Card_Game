@@ -35,13 +35,11 @@ class Player {
     constructor(name) {
         this.name = name;
         this.hand = [];
-        this.points = 0;
     }
 }
 
 const playerOne = new Player("Avacyn");
-const playerTwo = new Player("Elias");
-
+const playerTwo = new Player("Lincoln");
 
 function startGame() {
     const gameDeck = new Deck();
@@ -50,15 +48,48 @@ function startGame() {
     const halfDeck = Math.ceil(gameDeck.cards.length / 2);
     playerOne.hand = gameDeck.cards.slice(0, halfDeck);
     playerTwo.hand = gameDeck.cards.slice(halfDeck, gameDeck.cards.length);
+    console.log(playerOne.hand);
 }
 
-function gameRounds() {
-    playerOne.hand.forEach((handOne, index) => {
-        const handTwo = playerTwo.hand[index];   
-    });
+function gameRounds(playerOne, playerTwo) {
+    let p1Score = 0;
+    let p2Score = 0;
+    for(let i = 0; i < 26; i++) {
+        // if(isNaN(playerOne[i].rank)) {
+        //     switch(playerOne[i].rank) {
+        //         case "A":
+        //             return 14;
+        //         case "K":
+        //             return 13;
+        //         case "Q":
+        //             return 12;
+        //         case "J":
+        //             return 11;
+        //     }
+        // }
+        if(playerOne[i].rank > playerTwo[i].rank) {
+            p1Score++;
+            console.log(`Round ${i + 1}
+            Avacyn's card: ${playerOne[i].rank} - Lincoln's card: ${playerTwo[i].rank}
+            Avacyn wins the round.
+            Avacyn's score: ${p1Score} - Lincoln's score: ${p2Score}`)
+        } else if(playerOne[i].rank < playerTwo[i].rank) {
+            p2Score++;
+            console.log(`Round ${i + 1}
+            Avacyn's card: ${playerOne[i].rank} - Lincoln's card: ${playerTwo[i].rank}
+            Lincoln wins the round.
+            Avacyn's score: ${p1Score} - Lincoln's score: ${p2Score}`)
+        } else {
+            console.log(`Round ${i + 1}
+            Avacyn's card: ${playerOne[i].rank} - Lincoln's card: ${playerTwo[i].rank}
+            This round is a draw.
+            Avacyn's score: ${p1Score} - Lincoln's score: ${p2Score}`)
+        }
+    }
+}
 
-
-    switch(handOne.rank) { // This is me trying to get the non-numbered cards to be worth a number value.
+function faceCardValue(cardRank) {
+    switch(cardRank) {
         case "A":
             return 14;
         case "K":
@@ -67,12 +98,9 @@ function gameRounds() {
             return 12;
         case "J":
             return 11;
-        default:
-            return ranks;
     }
-
 }
 
 
 startGame();
-gameRounds();
+gameRounds(playerOne.hand, playerTwo.hand);
