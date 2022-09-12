@@ -55,37 +55,37 @@ function gameRounds(playerOne, playerTwo) {
     let p1Score = 0;
     let p2Score = 0;
     for(let i = 0; i < 26; i++) {
-        // if(isNaN(playerOne[i].rank)) {
-        //     switch(playerOne[i].rank) {
-        //         case "A":
-        //             return 14;
-        //         case "K":
-        //             return 13;
-        //         case "Q":
-        //             return 12;
-        //         case "J":
-        //             return 11;
-        //     }
-        // }
+        if(isNaN(playerOne[i].rank)) {
+            let newFaceValue = faceCardValue(playerOne[i].rank);
+            playerOne[i].rank = newFaceValue;
+        } 
+        
+        if(isNaN(playerTwo[i].rank)) {
+            let newFaceValue = faceCardValue(playerTwo[i].rank);
+            playerTwo[i].rank = newFaceValue;
+        }
+
         if(playerOne[i].rank > playerTwo[i].rank) {
             p1Score++;
             console.log(`Round ${i + 1}
             Avacyn's card: ${playerOne[i].rank} - Lincoln's card: ${playerTwo[i].rank}
             Avacyn wins the round.
-            Avacyn's score: ${p1Score} - Lincoln's score: ${p2Score}`)
+            Avacyn's score: ${p1Score} - Lincoln's score: ${p2Score}`);
         } else if(playerOne[i].rank < playerTwo[i].rank) {
             p2Score++;
             console.log(`Round ${i + 1}
             Avacyn's card: ${playerOne[i].rank} - Lincoln's card: ${playerTwo[i].rank}
             Lincoln wins the round.
-            Avacyn's score: ${p1Score} - Lincoln's score: ${p2Score}`)
+            Avacyn's score: ${p1Score} - Lincoln's score: ${p2Score}`);
         } else {
             console.log(`Round ${i + 1}
             Avacyn's card: ${playerOne[i].rank} - Lincoln's card: ${playerTwo[i].rank}
             This round is a draw.
-            Avacyn's score: ${p1Score} - Lincoln's score: ${p2Score}`)
+            Avacyn's score: ${p1Score} - Lincoln's score: ${p2Score}`);
         }
     }
+
+    declareWinner(p1Score, p2Score)
 }
 
 function faceCardValue(cardRank) {
@@ -101,6 +101,15 @@ function faceCardValue(cardRank) {
     }
 }
 
+function declareWinner(p1Score, p2Score) {
+    if(p1Score > p2Score) {
+        console.log(`Avacyn wins by a margin of ${p1Score - p2Score} point(s)!`);
+    } else if(p1Score < p2Score) {
+        console.log(`Lincoln wins by a margin of ${p2Score - p1Score} point(s)!`);
+    } else {
+        console.log(`This game was a draw.`);
+    }
+}
 
 startGame();
 gameRounds(playerOne.hand, playerTwo.hand);
